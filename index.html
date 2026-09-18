@@ -1,20 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Robot-GST</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Robot-GST: geometry-aware spatial-temporal robot policy representation and evaluation. Simulation and evaluation before acting.">
+  <meta name="referrer" content="no-referrer">
+  <meta property="og:title" content="Robot-GST | Simulation and evaluation before acting">
+  <meta property="og:description" content="Geometry-aware spatial-temporal robot policy representation and evaluation. Simulation and evaluation before acting.">
+  <meta property="og:image" content="https://robot-gst.github.io/assets/images/overview.webp">
+  <meta property="og:type" content="website">
+  <title>Robot-GST | Geometry-aware robot policy representation and evaluation</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
-
 <body>
-  <h1>Robot-GST</h1>
-
-  <p>
-    Project website for Robot-GST.
-  </p >
-
-  <p>
-    More results, videos and supplementary materials will be available soon.
-  </p >
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav wrap" aria-label="Main navigation">
+    <a class="wordmark" href="#top">Robot<span>-GST</span></a>
+    <div class="nav-links"><a href="#method">Method</a><a href="#experiments">Experiments</a><a href="#results">Results</a></div>
+  </nav>
+</header>
+<main id="main">
+  <section class="hero wrap" id="top" aria-labelledby="paper-title">
+    <h1 id="paper-title"><span class="project-name">Robot-GST</span><span class="paper-title">Geometry-aware spatial-temporal robot<br class="desktop-break"> policy representation and evaluation</span></h1>
+    <p class="tagline"><strong>Simulation and evaluation before acting.</strong><br>Ground robot plans in 3D geometry, predict final states,<br class="desktop-break"> and verify candidate behaviours before real-world execution.</p>
+    <figure class="hero-figure"><a class="figure-link" href="assets/images/overview.webp" data-zoom aria-label="Enlarge the Robot-GST overview"><img src="assets/images/overview.webp" alt="Robot-GST reconstructs a Gaussian-SAM3D environment from observations, reasons about task plans, and evaluates rigid, soft and deformable manipulation in simulation before execution." fetchpriority="high" width="2295" height="520"></a><figcaption>One framework for scene reconstruction, geometry-aware planning, and real-to-sim policy evaluation.</figcaption></figure>
+    <div class="metric-strip"><div><strong>3 task families</strong><span>Rigid, soft &amp; deformable objects</span></div><div><strong>55.3% <span class="metric-arrow">→</span> 80.0%</strong><span>Mean real-world success with replanning</span></div><div><strong>0.963 SSIM</strong><span>Robotic scene reconstruction</span></div></div>
+  </section>
+  <section class="section tinted" id="abstract">
+    <div class="reading"><h2>Abstract</h2>
+    <p>Robotic manipulation policies are advancing rapidly with increasing reliance on vision-language models for end-to-end decision making. However, reliable deployment remains challenging because many policies lack explicit mechanisms for predicting task outcomes and evaluating whether generated actions will achieve desired final states, causing execution errors to accumulate during long-horizon manipulation.</p>
+    <p>We present <strong>Robot-GST</strong>, a geometry-aware spatio-temporal behaviour representation and evaluation framework that constructs a Gaussian-SAM robotic environment for real-to-sim policy verification. From RGB-D observations, 3D Gaussian Splatting and SAM3D build a high-fidelity environment for <strong>“simulation and evaluation before acting.”</strong> Visual observations and language instructions support long-horizon task planning, while Gaussian-aware final-state estimation connects geometric sampling to state-based trajectory planning. Candidate action sequences are simulated and evaluated before execution to filter infeasible behaviours.</p>
+    <p>Experiments on cube placing, toy packing, and duck rearrangement demonstrate improved manipulation reliability across rigid, soft, and deformable objects through geometry-aware reasoning and state-aware execution.</p></div>
+  </section>
+  <section class="section wrap" id="method">
+    <div class="section-heading"><h2>Method</h2><p class="section-subtitle">From observation to verified action</p><p>A shared 3D representation connects scene understanding, task planning, and behaviour evaluation.</p></div>
+    <div class="steps"><article><span class="step-number">01</span><h3>Reconstruct</h3><p>Build a metrically aligned scene from RGB-D observations using 3D Gaussian Splatting and SAM3D.</p></article><article><span class="step-number">02</span><h3>Reason &amp; predict</h3><p>Ground language instructions in keypoint affordances and sample geometrically feasible final states.</p></article><article><span class="step-number">03</span><h3>Evaluate &amp; execute</h3><p>Simulate trajectories, check task feasibility, and deploy verified plans. Reset and replan after failures.</p></article></div>
+    <div class="method-grid"><article><h3>Geometry-aware scene reconstruction</h3><p>Object segmentation, semantic correspondence, language alignment, and depth cues provide a compositional robotic scene.</p><figure><a class="figure-link" href="assets/images/3dgs.webp" data-zoom><img src="assets/images/3dgs.webp" alt="Multi-view RGB-D observations with segmentation, semantic, language, and depth features for 3D Gaussian reconstruction." loading="lazy" width="1083" height="534"></a><figcaption>Multi-view observations become a geometry-aware scene.</figcaption></figure></article><article><h3>State-aware planning and simulation</h3><p>Language-conditioned keypoints specify grasp and release constraints. Candidate trajectories are evaluated in the reconstructed environment.</p><figure><a class="figure-link" href="assets/images/plan-sim.webp" data-zoom><img src="assets/images/plan-sim.webp" alt="Sloth packing pipeline: annotated observations, keypoint candidates, three-stage planning, and simulated grasping and placing trajectories." loading="lazy" width="1304" height="602"></a><figcaption>Plan the task, estimate the final state, then simulate.</figcaption></figure></article></div>
+  </section>
+  <section class="section tinted" id="experiments"><div class="wrap">
+    <div class="section-heading"><h2>Experiments</h2><p class="section-subtitle">Simulation meets the real world</p><p>Three manipulation tasks on a UR5 robot with wrist and side RGB-D cameras.</p></div>
+    <div class="task-picker" role="group" aria-label="Choose manipulation task"><button type="button" class="task-button active" data-task="cube" aria-pressed="true">01 <span>Cube placing</span><small>Rigid</small></button><button type="button" class="task-button" data-task="sloth" aria-pressed="false">02 <span>Toy packing</span><small>Soft</small></button><button type="button" class="task-button" data-task="ducks" aria-pressed="false">03 <span>Duck rearrangement</span><small>Deformable</small></button></div>
+    <article class="task-panel" aria-live="polite"><div class="task-copy"><div><h3 id="task-title">Place a cube into a box</h3><p id="task-description">Predict collision-free placement using the cube and box geometry. Evaluate the trajectory in simulation before executing it on the physical robot.</p></div><div class="task-stat"><span>Real-world success</span><strong id="task-rate">80% → 90%</strong><small>Without → with replanning</small></div></div><figure><a id="task-image-link" class="figure-link" href="assets/images/real-sim-cube-sloth.webp" data-zoom><img id="task-image" src="assets/images/real-sim-cube-sloth.webp" alt="Cube placing and sloth packing sequences. Rows 1 and 3: simulation; rows 2 and 4: real-world rollout." loading="lazy" width="1345" height="795"></a><figcaption id="task-caption">Cube placing (top two rows) and sloth packing (bottom two rows). Each pair compares simulation with real-world execution.</figcaption></figure></article>
+    <noscript><p>Duck rearrangement: place five deformable duck toys into a basket. Real-world success increases from 46% to 70% with replanning.</p><img src="assets/images/real-sim.webp" alt="Simulation and real-world sequences for rearranging five ducks." width="2429" height="478"></noscript>
+    <div class="replan-block"><div><h3>Failure Recovery and Replanning</h3><p>A simulated plan can still fail during real-world execution. When part of the sloth remains outside the basket, the scene is reset and a revised plan is evaluated in simulation before another rollout.</p><p class="muted">Contact and deformation modelling remain imperfect; simulation reduces, but does not eliminate, the reality gap.</p></div><figure><a class="figure-link" href="assets/images/replan.webp" data-zoom><img src="assets/images/replan.webp" alt="An initial orange trajectory fails to pack the sloth fully. After reset and replanning, a green trajectory is simulated and succeeds in the real world." loading="lazy" width="939" height="302"></a><figcaption>Failure detection and simulation-based replanning.</figcaption></figure></div>
+  </div></section>
+  <section class="section wrap" id="results"><div class="section-heading"><h2>Quantitative Results</h2><p class="section-subtitle">More reliable manipulation after replanning</p><p>Mean real-world success rises from 55.3% to 80.0% across the three tasks.</p></div>
+    <div class="table-scroll" role="region" aria-label="Task success rates" tabindex="0"><table><caption>Task success rates (%)</caption><thead><tr><th rowspan="2" scope="col">Task</th><th colspan="2" scope="colgroup">Without replanning</th><th colspan="2" scope="colgroup">With replanning</th></tr><tr><th scope="col">Simulation</th><th scope="col">Real world</th><th scope="col">Simulation</th><th scope="col">Real world</th></tr></thead><tbody><tr><th scope="row">Cube placing</th><td>80.0</td><td>80.0</td><td>100.0</td><td>90.0</td></tr><tr><th scope="row">Toy packing</th><td>60.0</td><td>40.0</td><td>100.0</td><td>80.0</td></tr><tr><th scope="row">Duck rearrangement</th><td>60.0</td><td>46.0</td><td>80.0</td><td>70.0</td></tr><tr class="highlight"><th scope="row">Average</th><td>66.7</td><td>55.3</td><td>93.3</td><td>80.0</td></tr></tbody></table></div>
+    <figure class="result-figure"><a class="figure-link" href="assets/images/success_rate.webp" data-zoom><img src="assets/images/success_rate.webp" alt="Plots comparing simulation and real-world success rates and subtask success as duck rearrangement progresses, with and without replanning." loading="lazy" width="916" height="478"></a><figcaption>Simulation and real-world success are positively related. Replanning improves subtask consistency during long-horizon duck rearrangement.</figcaption></figure>
+    <div class="section-heading reconstruction-heading"><h2>Reconstruction Quality</h2><p class="section-subtitle">High-fidelity scene reconstruction</p><p>Photometric quality supports policy evaluation in the reconstructed robotic environment.</p></div>
+    <div class="reconstruction-grid"><figure><a class="figure-link" href="assets/images/gs-reconstruction.webp" data-zoom><img src="assets/images/gs-reconstruction.webp" alt="Qualitative scene reconstruction comparison between ground truth, POGS, Embodied GS, and Robot-GST." loading="lazy" width="1466" height="697"></a><figcaption>Qualitative rendering comparison from the paper.</figcaption></figure><div class="table-scroll" role="region" aria-label="Reconstruction metrics" tabindex="0"><table class="rendering-table"><caption>Scene reconstruction metrics</caption><thead><tr><th scope="col">Method</th><th scope="col">PSNR ↑</th><th scope="col">SSIM ↑</th><th scope="col">LPIPS ↓</th></tr></thead><tbody><tr><th scope="row">GScream</th><td>17.82</td><td>0.590</td><td>0.560</td></tr><tr><th scope="row">VR-GS</th><td>24.13</td><td>0.833</td><td>0.320</td></tr><tr><th scope="row">Decoupled GS</th><td><strong>27.32</strong></td><td>0.905</td><td>0.300</td></tr><tr><th scope="row">POGS</th><td>19.66</td><td>0.869</td><td>0.098</td></tr><tr><th scope="row">D3DGS</th><td>12.05</td><td>0.399</td><td>0.230</td></tr><tr><th scope="row">Embodied GS</th><td>14.95</td><td>0.389</td><td>0.360</td></tr><tr class="highlight"><th scope="row">Robot-GST (ours)</th><td>24.64</td><td><strong>0.963</strong></td><td><strong>0.044</strong></td></tr></tbody></table><p class="table-note">PSNR in dB; LPIPS uses VGG. Bold marks the best value in each column.</p></div></div>
+  </section>
+  <section class="section tinted"><div class="reading"><h2>Scope and limitations</h2><p>Robot-GST connects geometry-aware reconstruction, long-horizon reasoning, and pre-execution evaluation in a unified framework. Reconstruction under occlusion, dynamic scene changes, and imperfect contact and deformation models remain limitations.</p></div></section>
+</main>
+<footer class="wrap"><span class="wordmark">Robot<span>-GST</span></span><p class="credit">Page layout inspired by <a href="https://real2sim-eval.github.io/" rel="noreferrer">Real2Sim-Eval</a>.</p><a href="#top">Back to top ↑</a></footer>
+<dialog id="figure-dialog" aria-labelledby="figure-dialog-caption"><div class="dialog-toolbar"><span>Figure detail</span><button type="button" id="close-figure" aria-label="Close enlarged figure">Close <span aria-hidden="true">×</span></button></div><img id="enlarged-figure" alt=""><p id="figure-dialog-caption"></p></dialog>
 </body>
 </html>
