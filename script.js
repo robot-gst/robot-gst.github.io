@@ -52,3 +52,14 @@ document.querySelectorAll('[data-zoom]').forEach(link => {
 });
 document.getElementById('close-figure').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', event => { if (event.target === dialog) { const box = dialog.getBoundingClientRect(); if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close(); } });
+
+const codeDialog = document.getElementById('code-dialog');
+const codeButton = document.getElementById('open-code');
+codeButton.addEventListener('click', () => codeDialog.showModal());
+document.getElementById('close-code').addEventListener('click', () => codeDialog.close());
+codeDialog.addEventListener('close', () => codeButton.focus());
+codeDialog.addEventListener('click', event => {
+  if (event.target !== codeDialog) return;
+  const box = codeDialog.getBoundingClientRect();
+  if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) codeDialog.close();
+});
